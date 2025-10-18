@@ -1,6 +1,0 @@
-group 'de.lukasbreuer'
-version '1.0.0-SNAPSHOT'
-
-task build {
-  dependsOn gradle.includedBuilds*.task(':build')
-}
