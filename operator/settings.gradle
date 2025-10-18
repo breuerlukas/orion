@@ -1,2 +1,2 @@
 rootProject.name = 'operator'
-includeBuild("../core")
+includeBuild("../worker")
