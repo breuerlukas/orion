@@ -1,0 +1,69 @@
+package de.lukasbreuer.orion.worker.channel;
+
+import de.lukasbreuer.orion.core.packet.PacketDecoder;
+import de.lukasbreuer.orion.core.packet.PacketEncoder;
+import de.lukasbreuer.orion.core.packet.PacketEventRepository;
+import de.lukasbreuer.orion.core.packet.PacketRegistry;
+import de.lukasbreuer.orion.worker.WorkerConfiguration;
+import de.lukasbreuer.orion.worker.client.WorkerOperatorClient;
+import de.lukasbreuer.signar.EventExecutor;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelInitializer;
+import lombok.RequiredArgsConstructor;
+
+import java.net.InetSocketAddress;
+
+@RequiredArgsConstructor(staticName = "create")
+public final class WorkerChannelEquipment extends ChannelInitializer<Channel> {
+  public enum Type {
+    EXTERNAL,
+    INTERNAL;
+
+    public boolean isExternal() {
+      return this == EXTERNAL;
+    }
+
+    public boolean isInternal() {
+      return this == INTERNAL;
+    }
+  }
+
+  private final WorkerConfiguration workerConfiguration;
+  private final PacketRegistry packetRegistry;
+  private final EventExecutor eventExecutor;
+  private final WorkerOperatorClient workerOperatorClient;
+  private final PacketEventRepository packetEventRepository;
+  private final Type type;
+
+  @Override
+  protected void initChannel(Channel channel) {
+    if (type.isInternal()) {
+      equipChannel(channel);
+      return;
+    }
+    if (channel.remoteAddress() == null) {
+      channel.close();
+      return;
+    }
+    checkChannelAuthorization(channel);
+  }
+
+  private void checkChannelAuthorization(Channel channel) {
+    var channelHost = ((InetSocketAddress) channel.remoteAddress())
+      .getAddress().getHostAddress();
+    var isAuthorized = workerConfiguration.operatorHostname().equals(channelHost);
+    if (!isAuthorized) {
+      channel.close();
+      return;
+    }
+    equipChannel(channel);
+  }
+
+  private void equipChannel(Channel channel) {
+    channel.pipeline().addLast("channel-encoder", PacketEncoder.create());
+    channel.pipeline().addLast("channel-decoder", PacketDecoder.create(
+      packetRegistry));
+    channel.pipeline().addLast("chanel-inbox", WorkerChannelInbox.create(
+      eventExecutor, workerOperatorClient, packetEventRepository));
+  }
+}
