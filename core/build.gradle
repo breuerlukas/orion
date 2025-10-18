@@ -1,38 +1,32 @@
 plugins {
-  id "java"
+  id("java")
 }
 
-group "de.lukasbreuer.cast"
-version "1.0.0-SNAPSHOT"
+group = "de.lukasbreuer"
+version = "1.0.0-SNAPSHOT"
 
 repositories {
   mavenCentral()
-  maven {
-    url "https://jitpack.io"
-  }
 }
 
 dependencies {
-  testCompileOnly "org.junit.jupiter:junit-jupiter-api:5.10.2"
-  testCompileOnly "org.junit.jupiter:junit-jupiter-engine:5.9.3"
+  testImplementation(platform("org.junit:junit-bom:6.0.0"))
+  testImplementation("org.junit.jupiter:junit-jupiter")
+  testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-  compileOnly "com.google.inject:guice:5.1.0"
+  implementation("com.google.inject:guice:7.0.0")
 
-  compileOnly "com.google.guava:guava:31.1-jre"
+  implementation("com.google.guava:guava:33.5.0-jre")
 
-  compileOnly "org.projectlombok:lombok:1.18.32"
-  annotationProcessor "org.projectlombok:lombok:1.18.32"
-  testCompileOnly "org.projectlombok:lombok:1.18.32"
-  testAnnotationProcessor "org.projectlombok:lombok:1.18.32"
+  implementation("org.projectlombok:lombok:1.18.42")
+  annotationProcessor("org.projectlombok:lombok:1.18.42")
+  testImplementation("org.projectlombok:lombok:1.18.42")
+  testAnnotationProcessor("org.projectlombok:lombok:1.18.42")
 
-  compileOnly "org.mongodb:mongodb-driver-reactivestreams:4.9.1"
-
-  compileOnly "org.deeplearning4j:deeplearning4j-core:1.0.0-M2.1"
-  compileOnly "org.nd4j:nd4j-native-platform:1.0.0-M2.1"
-
-  compileOnly group: "org.json", name: "json", version: "20230227"
+  implementation("org.json:json:20250517")
+  implementation("commons-io:commons-io:2.20.0")
 }
 
-test {
+tasks.test {
   useJUnitPlatform()
 }
