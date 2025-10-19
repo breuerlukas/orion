@@ -8,7 +8,7 @@ import org.json.JSONObject;
 @Getter
 @Accessors(fluent = true)
 public final class OperatorDistributionConfiguration extends Configuration {
-  private static final String CONFIGURATION_PATH = "/configurations/distribution/distribution.json";
+  private static final String CONFIGURATION_PATH = "/configurations/operator/distribution/distribution.json";
 
   public static OperatorDistributionConfiguration createAndLoad() throws Exception {
     var configuration = new OperatorDistributionConfiguration(CONFIGURATION_PATH);
