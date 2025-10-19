@@ -8,7 +8,7 @@ import org.json.JSONObject;
 @Getter
 @Accessors(fluent = true)
 public final class WorkerConfiguration extends Configuration {
-  private static final String CONFIGURATION_PATH = "/configurations/distribution/distribution.json";
+  private static final String CONFIGURATION_PATH = "/configurations/worker/distribution/distribution.json";
 
   public static WorkerConfiguration createAndLoad() throws Exception {
     var configuration = new WorkerConfiguration(CONFIGURATION_PATH);
