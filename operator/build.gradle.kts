@@ -32,7 +32,7 @@ dependencies {
   testImplementation("org.projectlombok:lombok:1.18.42")
   testAnnotationProcessor("org.projectlombok:lombok:1.18.42")
 
-  implementation("org.json:json:20250517")
+  implementation("org.json:json:20251224")
   implementation("commons-io:commons-io:2.21.0")
 
   implementation("io.netty:netty-all:4.2.9.Final")
