@@ -35,7 +35,7 @@ dependencies {
   implementation("org.json:json:20251224")
   implementation("commons-io:commons-io:2.21.0")
 
-  implementation("io.netty:netty-all:4.2.9.Final")
+  implementation("io.netty:netty-all:4.2.12.Final")
 
   implementation("de.lukasbreuer:signar:1.0.0-SNAPSHOT")
 }
