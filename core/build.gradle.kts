@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "de.lukasbreuer"
-version = "1.0.0-SNAPSHOT"
+version = "1.0.0"
 
 repositories {
   mavenCentral()
@@ -35,7 +35,7 @@ dependencies {
 
   implementation("io.netty:netty-all:4.2.7.Final")
 
-  implementation("de.lukasbreuer:signar:1.0.0-SNAPSHOT")
+  implementation("de.lukasbreuer:signar:1.0.0")
 }
 
 tasks.test {

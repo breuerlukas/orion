@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "de.lukasbreuer"
-version = "1.0.0-SNAPSHOT"
+version = "1.0.0"
 
 repositories {
   mavenCentral()
@@ -21,7 +21,7 @@ dependencies {
   testImplementation("org.junit.jupiter:junit-jupiter")
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-  implementation("de.lukasbreuer:core:1.0.0-SNAPSHOT")
+  implementation("de.lukasbreuer:core:1.0.0")
 
   implementation("com.google.inject:guice:7.0.0")
 
@@ -37,9 +37,20 @@ dependencies {
 
   implementation("io.netty:netty-all:4.2.18.Final")
 
-  implementation("de.lukasbreuer:signar:1.0.0-SNAPSHOT")
+  implementation("de.lukasbreuer:signar:1.0.0")
 }
 
 tasks.test {
   useJUnitPlatform()
+}
+tasks.jar {
+  duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+  manifest {
+    attributes("Main-Class" to "de.lukasbreuer.orion.worker.WorkerApplication")
+  }
+
+  from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+
+  exclude("META-INF/*.RSA", "META-INF/*.SF", "META-INF/*.DSA")
 }
